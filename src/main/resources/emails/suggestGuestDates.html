@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>[bad] ${name} : ${receiverTeam.name} - ${guestTeam.name} : propositions dates</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        Bonjour,
+        
+        Pour la journée ${number}, nous vous proposons les dates suivantes :
+        
+        <ul th:each="possibleDate : ${calendar.possibleDates}">
+        	<li>${possibleDate}</li>
+        </ul>
+        
+        Merci de faire le tour de vous partenaires et de revenir vers nous pour que je bloque une date auprès de mon équipe.
+        
+        Cordialement,
+        
+        ${receiverTeam.leader.person.firstName} - ${receiverTeam.name}
+    </body>
+</html>
