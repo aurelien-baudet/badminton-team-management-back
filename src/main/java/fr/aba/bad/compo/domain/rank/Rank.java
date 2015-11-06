@@ -12,5 +12,6 @@ public enum Rank {
 	D9,
 	P1,
 	P2,
-	P3
+	P3,
+	NC
 }

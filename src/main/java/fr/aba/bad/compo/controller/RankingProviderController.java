@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.aba.bad.compo.domain.rank.Ranking;
-import fr.aba.bad.compo.exception.RankingException;
+import fr.aba.bad.compo.exception.ranking.RankingException;
 import fr.aba.bad.compo.service.RankingProviderService;
 
 @RestController

@@ -1,4 +1,4 @@
-package fr.aba.bad.compo.exception;
+package fr.aba.bad.compo.exception.ranking;
 
 public class RankingException extends Exception {
 

@@ -17,7 +17,7 @@ import fr.aba.bad.compo.domain.player.InternalPlayer;
 import fr.aba.bad.compo.domain.player.info.BadInformation;
 import fr.aba.bad.compo.domain.rank.Rank;
 import fr.aba.bad.compo.domain.rank.Ranking;
-import fr.aba.bad.compo.exception.RankingException;
+import fr.aba.bad.compo.exception.ranking.RankingException;
 import fr.aba.bad.compo.service.impl.PoonaSnifferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

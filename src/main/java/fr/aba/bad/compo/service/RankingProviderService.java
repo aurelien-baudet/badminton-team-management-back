@@ -5,7 +5,7 @@ import java.util.List;
 
 import fr.aba.bad.compo.domain.player.Player;
 import fr.aba.bad.compo.domain.rank.Ranking;
-import fr.aba.bad.compo.exception.RankingException;
+import fr.aba.bad.compo.exception.ranking.RankingException;
 
 public interface RankingProviderService {
 	public Ranking getRanking(String licence, LocalDate rankDate) throws RankingException;

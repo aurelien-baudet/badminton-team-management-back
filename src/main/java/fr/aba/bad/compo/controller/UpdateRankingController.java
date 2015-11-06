@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import fr.aba.bad.compo.exception.RankingException;
+import fr.aba.bad.compo.exception.ranking.RankingException;
 import fr.aba.bad.compo.service.RankingUpdaterService;
 
 @Controller

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -29,10 +30,12 @@ import fr.aba.bad.compo.domain.player.Player;
 import fr.aba.bad.compo.domain.player.info.CivilInformation;
 import fr.aba.bad.compo.domain.rank.Rank;
 import fr.aba.bad.compo.domain.rank.Ranking;
-import fr.aba.bad.compo.exception.PlayerProviderException;
-import fr.aba.bad.compo.exception.PoonaException;
-import fr.aba.bad.compo.exception.RankingDateException;
-import fr.aba.bad.compo.exception.RankingException;
+import fr.aba.bad.compo.exception.player.provider.PlayerInfoNotFoundException;
+import fr.aba.bad.compo.exception.player.provider.PlayerNotFoundException;
+import fr.aba.bad.compo.exception.player.provider.PlayerProviderException;
+import fr.aba.bad.compo.exception.ranking.RankingDateException;
+import fr.aba.bad.compo.exception.ranking.RankingException;
+import fr.aba.bad.compo.exception.service.impl.PoonaException;
 import fr.aba.bad.compo.service.PlayerInfoProviderService;
 import fr.aba.bad.compo.service.RankingProviderService;
 
@@ -66,6 +69,9 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 	private static final String SELECT_DATE_SELECTOR = "#recherche_select_classementHebdo option";
 	private static final String PLAYER_INFO_SELECTOR = ".blocNom";
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	private static final String NO_INFO_TEXT = "Fiche non disponible";
+	private static final String NO_INFO_SELECTOR = ".boxAvertissement .boxContenu";
+
 	
 	@Override
 	public List<Ranking> getRankings(Player player) throws RankingException {
@@ -97,7 +103,8 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 	@Override
 	public CivilInformation getCivilInformation(String licence) throws PlayerProviderException {
 		try {
-			Elements nameElements = Jsoup.parse(getPageContent(getParams(licence))).select(PLAYER_INFO_SELECTOR);
+			Document html = Jsoup.parse(getPageContent(getParams(licence)));
+			Elements nameElements = html.select(PLAYER_INFO_SELECTOR);
 			if(!nameElements.isEmpty()) {
 				String[] fullNameParts = nameElements.get(0).text().split(" ");
 				StringJoiner firstName = new StringJoiner(" ");
@@ -111,7 +118,11 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 				}
 				return new CivilInformation().firstName(firstName.toString()).lastName(lastName.toString());
 			} else {
-				throw new PlayerProviderException("Player information not found for "+licence);
+				if(existsButNoInfo(html)) {
+					throw new PlayerInfoNotFoundException("Player information not found for "+licence, licence);
+				} else {
+					throw new PlayerNotFoundException("Player with "+licence+" not found", licence);
+				}
 			}
 		} catch (PoonaException e) {
 			throw new PlayerProviderException("Failed to get player information ("+licence+")", e);
@@ -138,20 +149,37 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 		}
 	}
 
-	private Ranking parseRanking(String body) {
+	private Ranking parseRanking(String body) throws RankingException {
 		Ranking ranking = new Ranking();
-		Elements fieldsets = Jsoup.parse(body).select(RANKING_SECTION_SELECTOR);
-		for(Element element : fieldsets) {
-			String type = element.select(RANKING_TYPE_SELECTOR).html();
-			String content = element.select(RANKING_CONTAINER_SELECTOR).html();
-			String rank = RANKING_PATTERN.matcher(content).replaceAll("$1");
-			LocalDate date = LocalDate.parse(RANKING_DATE_PATTERN.matcher(content).replaceAll("$1"), DATE_FORMATTER);
-			SETTERS.get(type).accept(ranking, Rank.valueOf(rank));
-			ranking.setDate(date);
+		Document html = Jsoup.parse(body);
+		Elements fieldsets = html.select(RANKING_SECTION_SELECTOR);
+		if(fieldsets.isEmpty()) {
+			if(existsButNoInfo(html)) {
+				// if no information but there is a response, assume that player is not ranked for now
+				LOG.info("There is no ranking information => using default ranking");
+				ranking.singles(Rank.NC).doubles(Rank.NC).mixedDoubles(Rank.NC);
+			} else {
+				// nothing found at all => error on provided player licence (doesn't exist)
+				throw new RankingException("Can't get ranking for player. It may be due to invalid licence");
+			}
+		} else {
+			for(Element element : fieldsets) {
+				String type = element.select(RANKING_TYPE_SELECTOR).html();
+				String content = element.select(RANKING_CONTAINER_SELECTOR).html();
+				String rank = RANKING_PATTERN.matcher(content).replaceAll("$1");
+				LocalDate date = LocalDate.parse(RANKING_DATE_PATTERN.matcher(content).replaceAll("$1"), DATE_FORMATTER);
+				SETTERS.get(type).accept(ranking, Rank.valueOf(rank));
+				ranking.setDate(date);
+			}
 		}
 		return ranking;
 	}
 
+	private boolean existsButNoInfo(Document html) {
+		Elements errorMsgBox = html.select(NO_INFO_SELECTOR);
+		return !errorMsgBox.isEmpty() && errorMsgBox.text().contains(NO_INFO_TEXT);
+	}
+	
 	private MultiValueMap<String, String> getParams(String licence, LocalDate rankDate) throws RankingException {
 		Elements options = getDateOptions(licence);
 		Optional<Element> element = options.stream().

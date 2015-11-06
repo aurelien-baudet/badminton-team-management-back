@@ -1,4 +1,4 @@
-package fr.aba.bad.compo.exception;
+package fr.aba.bad.compo.exception.player.provider;
 
 public class PlayerProviderException extends Exception {
 
