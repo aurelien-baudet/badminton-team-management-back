@@ -1,9 +1,9 @@
 package fr.aba.bad.compo
 
 import spock.lang.Specification
-import fr.aba.bad.compo.domain.rank.Rank
-import fr.aba.bad.compo.domain.rank.RankGroup
-import fr.aba.bad.compo.service.impl.RankGroupComparator
+import fr.aba.bad.compo.core.domain.rank.Rank
+import fr.aba.bad.compo.core.domain.rank.RankGroup
+import fr.aba.bad.compo.core.service.impl.RankGroupComparator
 
 class RankGroupComparatorTest extends Specification {
 	def "rank comparator"(RankGroup rankGroup1, RankGroup rankGroup2, int result) {
