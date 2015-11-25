@@ -9,9 +9,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.aba.bad.compo.BadCompoApplication;
-import fr.aba.bad.compo.domain.player.info.CivilInformation;
-import fr.aba.bad.compo.exception.player.provider.PlayerProviderException;
-import fr.aba.bad.compo.service.impl.PoonaSnifferService;
+import fr.aba.bad.compo.core.domain.player.info.CivilInformation;
+import fr.aba.bad.compo.core.exception.player.provider.PlayerProviderException;
+import fr.aba.bad.compo.core.service.impl.PoonaSnifferService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BadCompoApplication.class)
