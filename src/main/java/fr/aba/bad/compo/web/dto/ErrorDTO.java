@@ -1,4 +1,4 @@
-package fr.aba.bad.compo.web.controller.dto;
+package fr.aba.bad.compo.web.dto;
 
 public class ErrorDTO {
 	private final String type;

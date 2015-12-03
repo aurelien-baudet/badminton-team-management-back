@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.aba.bad.compo.core.domain.player.info.CivilInformation;
+import fr.aba.bad.compo.core.domain.team.Club;
+import fr.aba.bad.compo.core.exception.club.provider.ClubProviderException;
 import fr.aba.bad.compo.core.exception.player.provider.PlayerInfoNotFoundException;
 import fr.aba.bad.compo.core.exception.player.provider.PlayerProviderException;
+import fr.aba.bad.compo.core.service.ClubProviderService;
 import fr.aba.bad.compo.core.service.PlayerInfoProviderService;
 
 @RestController
@@ -22,6 +25,9 @@ public class PlayerInfoProviderController {
 	
 	@Autowired
 	PlayerInfoProviderService playerInfoProviderService;
+
+	@Autowired
+	ClubProviderService clubProviderService;
 	
 	@RequestMapping(value="{licence}", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
@@ -38,5 +44,12 @@ public class PlayerInfoProviderController {
 			LOG.debug("Failed to get player information. Using default provided value", e);
 			return null;
 		}
+	}
+
+	
+	@RequestMapping(value="{licence}/club", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Club getClub(@PathVariable String licence) throws ClubProviderException {
+		return clubProviderService.getClub(licence);
 	}
 }
