@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Predicate;
@@ -32,11 +33,13 @@ public class BadmaniaSnifferClubProviderService implements ClubProviderService {
 		this.factory = factory;
 	}
 
+	@Cacheable(cacheNames="clubs", key="#player.badInfo.licence")
 	@Override
 	public Club getClub(Player player) throws ClubProviderException {
 		return getClub(player.getBadInfo().getLicence());
 	}
 
+	@Cacheable(cacheNames="clubs")
 	@Override
 	public Club getClub(String licence) throws ClubProviderException {
 		WebDriver driver = factory.create();
