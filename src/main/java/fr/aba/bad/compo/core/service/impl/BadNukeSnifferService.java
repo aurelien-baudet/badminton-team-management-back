@@ -20,7 +20,7 @@ import fr.aba.bad.compo.core.exception.club.provider.ClubProviderException;
 import fr.aba.bad.compo.core.exception.service.impl.BadNukeException;
 import fr.aba.bad.compo.core.service.ClubProviderService;
 
-@Service
+//@Service
 public class BadNukeSnifferService implements ClubProviderService {
 	private static final Logger LOG = LoggerFactory.getLogger(BadNukeSnifferService.class);
 	

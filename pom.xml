@@ -24,6 +24,7 @@
 		<jsoup.version>1.8.3</jsoup.version>
 		<ogham.version>1.1.0-SNAPSHOT</ogham.version>
 		<quartz.version>2.2.2</quartz.version>
+		<selenium.version>2.52.0</selenium.version>
 	</properties>
 
 	<dependencies>
@@ -73,6 +74,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${selenium.version}</version>
 		</dependency>
 
 		<dependency>
