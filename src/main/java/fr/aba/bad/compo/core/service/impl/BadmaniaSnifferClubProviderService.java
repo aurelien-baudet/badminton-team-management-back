@@ -35,13 +35,13 @@ public class BadmaniaSnifferClubProviderService implements ClubProviderService {
 
 	@Cacheable(cacheNames="clubs", key="#player.badInfo.licence")
 	@Override
-	public Club getClub(Player player) throws ClubProviderException {
+	public synchronized Club getClub(Player player) throws ClubProviderException {
 		return getClub(player.getBadInfo().getLicence());
 	}
 
-	@Cacheable(cacheNames="clubs")
+	@Cacheable(cacheNames="clubs", key="#licence")
 	@Override
-	public Club getClub(String licence) throws ClubProviderException {
+	public synchronized Club getClub(String licence) throws ClubProviderException {
 		WebDriver driver = factory.create();
 		try {
 			driver.get(BADMANIA_URL);
