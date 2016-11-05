@@ -10,9 +10,9 @@ public enum Rank {
 	D7(7),
 	D8(6),
 	D9(5),
-	P1(4),
-	P2(3),
-	P3(2),
+	P10(4),
+	P11(3),
+	P12(2),
 	NC(1);
 	
 	private final int value;

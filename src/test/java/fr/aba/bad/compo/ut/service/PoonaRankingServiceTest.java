@@ -26,11 +26,20 @@ public class PoonaRankingServiceTest {
 	
 	@Test
 	public void playerRanking() throws RankingException {
-		Ranking ranking = rankingService.getRanking(new InternalPlayer().badInfo(new BadInformation().licence("6753956")), LocalDate.of(2015, 10, 1));
-		assertEquals("Should be D9/P1/D9", Rank.D9, ranking.getSingles());
-		assertEquals("Should be D9/P1/D9", Rank.P1, ranking.getDoubles());
-		assertEquals("Should be D9/P1/D9", Rank.D9, ranking.getMixedDoubles());
-		assertEquals("Date should be 2015/10/01", LocalDate.of(2015, 10, 1), ranking.getDate());
+		Ranking ranking = rankingService.getRanking(new InternalPlayer().badInfo(new BadInformation().licence("6753956")), LocalDate.of(2016, 11, 3));
+		assertEquals("Should be D9/P11/D9", Rank.D9, ranking.getSingles());
+		assertEquals("Should be D9/P11/D9", Rank.P11, ranking.getDoubles());
+		assertEquals("Should be D9/P11/D9", Rank.D9, ranking.getMixedDoubles());
+		assertEquals("Date should be 2016/11/03", LocalDate.of(2016, 11, 3), ranking.getDate());
+	}
+	
+	@Test
+	public void playerRanking2() throws RankingException {
+		Ranking ranking = rankingService.getRanking(new InternalPlayer().badInfo(new BadInformation().licence("06459913")), LocalDate.of(2016, 11, 3));
+		assertEquals("Should be P10/D9/D8", Rank.P10, ranking.getSingles());
+		assertEquals("Should be P10/D9/D8", Rank.D9, ranking.getDoubles());
+		assertEquals("Should be P10/D9/D8", Rank.D8, ranking.getMixedDoubles());
+		assertEquals("Date should be 2016/11/03", LocalDate.of(2016, 11, 3), ranking.getDate());
 	}
 	
 	@Test
