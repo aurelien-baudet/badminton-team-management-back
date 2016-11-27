@@ -34,13 +34,13 @@ public class RankingController {
 		return rankingProviderService.getRanking(licence, date);
 	}
 	
-	@RequestMapping(value="{greater:[NRDP][0-9C]}/{lower:[NRDP][0-9C]}", method=RequestMethod.GET)
+	@RequestMapping(value="{greater:[NRDP][0-9C]+}/{lower:[NRDP][0-9C]+}", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public boolean isGreater(@PathVariable Rank greater, @PathVariable Rank lower) throws RankingException {
 		return rankingOrderService.isGreater(greater, lower);
 	}
 	
-	@RequestMapping(value="{greater1:[NRDP][0-9C]}-{greater2:[NRDP][0-9C]}/{lower1:[NRDP][0-9C]}-{lower2:[NRDP][0-9C]}", method=RequestMethod.GET)
+	@RequestMapping(value="{greater1:[NRDP][0-9C]+}-{greater2:[NRDP][0-9C]+}/{lower1:[NRDP][0-9C]+}-{lower2:[NRDP][0-9C]+}", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public boolean isGreater(@PathVariable Rank greater1, @PathVariable Rank greater2, @PathVariable Rank lower1, @PathVariable Rank lower2) throws RankingException {
 		return rankingOrderService.isGreater(new RankGroup(greater1, greater2), new RankGroup(lower1, lower2));
