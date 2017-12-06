@@ -1,22 +1,12 @@
 package fr.aba.bad.compo.core.domain;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 import fr.aba.bad.compo.core.domain.player.info.CivilInformation;
 
-@Entity
 public class Person {
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@Embedded
 	private Contact contactInformation;
 	
-	@Embedded
 	private CivilInformation civilInformation;
 
 

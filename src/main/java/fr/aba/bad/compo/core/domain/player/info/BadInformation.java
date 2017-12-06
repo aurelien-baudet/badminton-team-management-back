@@ -3,18 +3,11 @@ package fr.aba.bad.compo.core.domain.player.info;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.OneToMany;
-
 import fr.aba.bad.compo.core.domain.rank.Ranking;
 
-@Embeddable
 public class BadInformation {
-	@Column
 	private String licence;
 	
-	@OneToMany
 	private List<Ranking> rankings = new ArrayList<>();
 
 	public String getLicence() {

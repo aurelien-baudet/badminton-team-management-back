@@ -18,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -71,16 +72,19 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 	private static final String NO_INFO_SELECTOR = ".boxAvertissement .boxContenu";
 
 	
+	@Cacheable(cacheNames="allRankings", key="#player.badInfo.licence")
 	@Override
 	public List<Ranking> getRankings(Player player) throws RankingException {
 		return getRankings(player.getBadInfo().getLicence());
 	}
 
+	@Cacheable(cacheNames="rankingsByDate", key="#player.badInfo.licence + '_' + #rankDate")
 	@Override
 	public Ranking getRanking(Player player, LocalDate rankDate) throws RankingException {
 		return getRanking(player.getBadInfo().getLicence(), rankDate);
 	}
 
+	@Cacheable(cacheNames="allRankings", key="#licence")
 	@Override
 	public List<Ranking> getRankings(String licence) throws RankingException {
 		Elements options = getDateOptions(licence);
@@ -91,6 +95,7 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 		return ranking;
 	}
 
+	@Cacheable(cacheNames="rankingsByDate", key="#licence + '_' + #rankDate")
 	@Override
 	public Ranking getRanking(String licence, LocalDate rankDate) throws RankingException {
 		LOG.info("Get the ranking for player {} for date {} through Poona", licence, rankDate);
@@ -98,6 +103,7 @@ public class PoonaSnifferService implements RankingProviderService, PlayerInfoPr
 	}
 
 
+	@Cacheable("playersInfo")
 	@Override
 	public CivilInformation getCivilInformation(String licence) throws PlayerProviderException {
 		try {

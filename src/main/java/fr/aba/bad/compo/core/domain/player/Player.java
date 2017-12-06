@@ -1,26 +1,14 @@
 package fr.aba.bad.compo.core.domain.player;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import fr.aba.bad.compo.core.domain.player.info.BadInformation;
 
-@Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS, include=As.PROPERTY, property="@type")
 public abstract class Player {
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@Embedded
 	private BadInformation badInfo;
 
 	public Long getId() {

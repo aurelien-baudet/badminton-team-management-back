@@ -1,14 +1,8 @@
 package fr.aba.bad.compo.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Contact {
-	@Column
 	private String phoneNumber;
 	
-	@Column
 	private String email;
 
 	public String getPhoneNumber() {

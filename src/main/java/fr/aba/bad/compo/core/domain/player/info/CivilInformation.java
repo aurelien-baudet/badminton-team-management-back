@@ -2,24 +2,13 @@ package fr.aba.bad.compo.core.domain.player.info;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-@Embeddable
 public class CivilInformation {
-	@Column
 	private String firstName;
 	
-	@Column
 	private String lastName;
 	
-	@Column
-	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	
-	@Column
 	private LocalDate birthDate;
 
 	public String getFirstName() {

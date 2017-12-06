@@ -1,17 +1,10 @@
 package fr.aba.bad.compo.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class AddressInformation {
-	@Column
 	private String address;
 	
-	@Column
 	private String postalCode;
 	
-	@Column
 	private String town;
 
 	public String getAddress() {

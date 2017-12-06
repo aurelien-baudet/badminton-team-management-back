@@ -2,32 +2,15 @@ package fr.aba.bad.compo.core.domain.rank;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
 public class Ranking {
-	@Id
-	@GeneratedValue
 	private Long id;
 	
-	@Column
 	private LocalDate date;
 	
-	@Column
-	@Enumerated(EnumType.STRING)
 	private Rank singles;
 	
-	@Column
-	@Enumerated(EnumType.STRING)
 	private Rank doubles;
 	
-	@Column
-	@Enumerated(EnumType.STRING)
 	private Rank mixedDoubles;
 
 	public Long getId() {
